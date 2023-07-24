@@ -40,3 +40,16 @@ def edit_task(request, task_id):
         'form': form
     }
     return render(request, 'todo/edit_task.html', context)
+
+
+def toggle_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    task.done = not task.done
+    task.save()
+    return redirect('get_todo_list')
+
+
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    task.delete()
+    return redirect('get_todo_list')

@@ -19,10 +19,22 @@
             <td>{{ task.name }}</td>
             {% endif %}
             <td>
+                <a href="/toggle/{{ task.id }}">
+                    Toggle
+                </a>
+            </td>
+
+            <td>
                 <a href="/edit/{{ task.id }}">
                     Edit
                 </a>
             </td>
+            <td>
+                <a href="/delete/{{ task.id }}">
+                    Delete
+                </a>
+            </td>
+
         </tr>
         {% empty %}
         <tr>

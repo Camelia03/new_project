@@ -10,6 +10,21 @@
 
 <body>
     <h1>Things to do:</h1>
+    <table>
+        {% for task in tasks %}
+        <tr>
+            {% if task.done %}
+            <td><strike>{{ task.name }}</strike></td>
+            {% else %}
+            <td>{{ task.name }}</td>
+            {% endif %}
+        </tr>
+        {% empty %}
+        <tr>
+            <td>You have nothing to do</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 
 </html>

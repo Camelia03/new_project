@@ -9,13 +9,13 @@
 </head>
 
 <body>
-    <h1>Add a ToDo Task:</h1>
-    <form method="POST" action="{% url 'add' %}">
+    <h1>Edit a ToDo Task:</h1>
+    <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <div>
             <p>
-                <button type="submit">Add Task</button>
+                <button type="submit">Update Task</button>
             </p>
         </div>
     </form>

@@ -18,6 +18,11 @@
             {% else %}
             <td>{{ task.name }}</td>
             {% endif %}
+            <td>
+                <a href="/edit/{{ task.id }}">
+                    Edit
+                </a>
+            </td>
         </tr>
         {% empty %}
         <tr>

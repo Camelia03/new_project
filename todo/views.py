@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Task
+from .forms import TaskForm
 
 # Create your views here.
 
@@ -14,9 +15,28 @@ def get_todo_list(request):
 
 def add_task(request):
     if request.method == 'POST':
-        name = request.POST.get('task_name')
-        done = 'done' in request.POST
-        Task.objects.create(name=name, done=done)
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('get_todo_list')
 
-        return redirect('get_todo_list')
-    return render(request, 'todo/add_task.html')
+    form = TaskForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'todo/add_task.html', context)
+
+
+def edit_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('get_todo_list')
+
+    form = TaskForm(instance=task)
+    context = {
+        'form': form
+    }
+    return render(request, 'todo/edit_task.html', context)

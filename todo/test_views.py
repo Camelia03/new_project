@@ -30,7 +30,7 @@ class TestViews(TestCase):
         task = Task.objects.create(name='Test Todo Task', done=True)
         response = self.client.get(f'/delete/{task.id}')
         self.assertRedirects(response, '/')
-        existing_tasks = Task.objects.filter(id=task.id)
+        existing_tasks = Task.objects.filter(id=task.id, done=True)
         self.assertEqual(len(existing_tasks), 0)
 
     def test_can_toggle_task(self):
@@ -39,3 +39,11 @@ class TestViews(TestCase):
         self.assertRedirects(response, '/')
         updated_task = Task.objects.get(id=task.id)
         self.assertFalse(updated_task.done)
+
+    def test_can_edit_task(self):
+        task = Task.objects.create(name='Test Todo Task', done=False)
+        response = self.client.post(
+            f'/edit/{task.id}', {'name': 'Updated Name'})
+        self.assertRedirects(response, '/')
+        updated_task = Task.objects.get(id=task.id, done=False)
+        self.assertEqual(updated_task.name, 'Updated Name')
